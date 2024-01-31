@@ -1,8 +1,11 @@
-export const {{ pascalCase name }} = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div>
-      <h1>{{ pascalCase name }} Component</h1>
-      {children}
-    </div>
-  );
-};
+import { FC } from "react";
+import {
+  Heading as ChakraHeading,
+  HeadingProps as ChakraHeadingProps,
+} from "@chakra-ui/react";
+
+export type {{ pascalCase name }}Props = Pick<ChakraHeadingProps, "key" | "children">;
+
+export const {{ pascalCase name }}: FC<{{ pascalCase name}}Props> = () => (
+  throw new Error("Not Implemented!");
+);

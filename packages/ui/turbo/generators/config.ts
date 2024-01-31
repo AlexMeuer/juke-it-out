@@ -12,19 +12,30 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         name: "name",
         message: "What is the name of the component?",
       },
+      {
+        type: "list",
+        name: "category",
+        message: "What category does this component fit into?",
+        choices: ["atoms", "molecules", "organisms", "templates"] as const
+      },
+      {
+        type: "input",
+        name: "extra-path",
+        message: "Any extra path elements (i.e. where should the file be created)?"
+      }
     ],
     actions: [
       {
         type: "add",
-        path: "src/{{kebabCase name}}.tsx",
+        path: "src/components/{{category}}/{{extra-path}}/{{kebabCase name}}.tsx",
         templateFile: "templates/component.hbs",
       },
-      {
-        type: "append",
-        path: "index.tsx",
-        pattern: /"exports": {(?<insertion>)/g,
-        template: '"./{{kebabCase name}}": "./src/{{kebabCase name}}.tsx",',
-      },
+      // {
+      //   type: "append",
+      //   path: "index.tsx",
+      //   pattern: /"exports": {(?<insertion>)/g,
+      //   template: '"./{{kebabCase name}}": "./src/{{kebabCase name}}.tsx",',
+      // },
     ],
   });
 }
