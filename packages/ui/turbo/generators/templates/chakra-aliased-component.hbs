@@ -1,0 +1,9 @@
+import { FC } from "react";
+import {
+  {{ pascalCase name }} as Chakra{{ pascalCase name }},
+  {{ pascalCase name }}Props as Chakra{{ pascalCase name }}Props,
+} from "@chakra-ui/react";
+
+export type {{ pascalCase name }}Props = Pick<Chakra{{ pascalCase name }}Props, "key" | "children">;
+
+export const {{ pascalCase name }}: FC<{{ pascalCase name}}Props> = (props) => <Chakra{{ pascalCase name }} {...props} />;
