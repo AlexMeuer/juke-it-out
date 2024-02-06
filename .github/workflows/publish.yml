@@ -46,7 +46,7 @@ jobs:
       - uses: AlexMeuer/turbo-pnpm-setup-action@v1
 
       - name: Build project
-        run: pnpm run --filter=@repo/tauri build
+        run: pnpm run --filter=@repo/tauri build -- --base "/jukei-it-out/"
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
