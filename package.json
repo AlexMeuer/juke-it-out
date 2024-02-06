@@ -2,9 +2,9 @@
   "name": "juke-it-out",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
+    "build": "turbo build --cache-dir=.turbo",
+    "dev": "turbo dev --cache-dir=.turbo",
+    "lint": "turbo lint --cache-dir=.turbo",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
