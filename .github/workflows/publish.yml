@@ -1,0 +1,74 @@
+name: Deploy
+
+on:
+  push:
+    # tags:
+    # - "*" # Push events to every tag not containing /
+    # - "**" # Push events to every tag including hierarchical tags like v1.0/beta
+    branches:
+      # - publish
+      - main
+
+jobs:
+  publish-tauri:
+    name: Publish Tauri
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: AlexMeuer/turbo-pnpm-setup-action@v1
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
+          releaseName: "App v__VERSION__"
+          releaseBody: "See the assets to download this version and install."
+          releaseDraft: true
+          prerelease: false
+
+  build-web:
+    name: Build Web
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - uses: AlexMeuer/turbo-pnpm-setup-action@v1
+
+      - name: Build project
+        run: pnpm run --filter=@repo/tauri build
+
+      - name: Upload production-ready build files
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-files-web
+          path: ./apps/tauri/dist
+
+  deploy-web:
+    name: Deploy Web
+    needs: build-web
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files-web
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

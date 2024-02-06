@@ -2,9 +2,9 @@
 name = "juke-it-out"
 version = "0.0.0"
 description = "A Tauri App"
-authors = ["you"]
+authors = ["Alex Meuer <github@alexmeuer.com>"]
 license = ""
-repository = ""
+repository = "https://github.com/AlexMeuer/juke-it-out"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
